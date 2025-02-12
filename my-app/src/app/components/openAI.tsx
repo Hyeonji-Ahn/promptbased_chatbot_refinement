@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MessageBubble from "./messageBubble";
 
 interface Message {
   role: "user" | "assistant";
@@ -44,15 +45,14 @@ export default function ChatComponent() {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto border rounded-lg shadow-lg">
+    <div className="h-[90%] p-4 w-[95%] max-w-lg mx-auto border rounded-lg shadow-lg">
       <h2 className="text-xl font-bold mb-4">Chat with AI</h2>
 
-      <div className="mb-4 h-60 overflow-y-auto border p-2 rounded-md bg-gray-50">
+      <div className="h-[80%] mb-4 overflow-y-auto border p-2 rounded-md">
         {messages.length > 0 ? (
           messages.map((msg, index) => (
-            <div key={index} className={`p-2 ${msg.role === "user" ? "text-right" : "text-left"} text-black`}>
-              <strong>{msg.role === "user" ? "You" : "AI"}:</strong> {msg.content}
-            </div>
+            <MessageBubble key={index} text={msg.content} sender={msg.role} />
+
           ))
         ) : (
           <p className="text-black">Start the conversation...</p>
