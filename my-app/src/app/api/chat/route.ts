@@ -1,11 +1,12 @@
 import OpenAI from "openai";
+import { NextRequest, NextResponse } from 'next/server';
 
 // Create an OpenAI API client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(req: { json: () => PromiseLike<{ messages: any; }> | { messages: any; }; }) {
+export async function POST(req: NextRequest) {
   try {
     // Extract the `messages` from the request body
     const { messages } = await req.json();
