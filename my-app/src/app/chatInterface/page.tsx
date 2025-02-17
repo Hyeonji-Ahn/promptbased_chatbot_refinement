@@ -13,7 +13,7 @@ export default function Home() {
       <nav className="flex items-center p-4 shadow-md">
         <button 
           onClick={toggleDrawer} 
-          className="md:hidden p-2 bg-blue-500 text-white rounded">
+          className="p-2 bg-blue-500 text-white rounded">
           Task Description
         </button>
         <h1 className="justify-end text-xl ml-auto font-semibold">Talk to Chat GPT API</h1>
@@ -27,10 +27,10 @@ export default function Home() {
       </div>
 
       {/* Drawer component for small screens */}
-      <div className={`overflow-y-scroll fixed inset-y-0 left-0 bg-slate-50 text-black w-[75%] p-4 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:hidden z-50`}> 
+      <div className={`overflow-y-scroll fixed inset-y-0 left-0 bg-slate-50 text-black w-[75%] p-4 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50`}> 
         <button onClick={toggleDrawer} className="absolute top-2 right-2 text-xl">&times;</button>
         <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Task A: Talking about the ERASMUS Program</h1>
+          <h1 className="text-2xl font-bold mb-4">Task A: Talking about the ERASMUS Program</h1>
           <h2 className="text-xl font-semibold">Directions</h2>
           <p>
             You and your conversational partner, ChatGPT, will engage in an activity where you create a drama script based on a given scenario.
