@@ -55,7 +55,7 @@ export default function ChatComponent() {
 
           ))
         ) : (
-          <p className="text-black">Start the conversation...</p>
+          <p className="text-white">When you are ready, type "ready" to start the conversation. </p>
         )}
       </div>
 
