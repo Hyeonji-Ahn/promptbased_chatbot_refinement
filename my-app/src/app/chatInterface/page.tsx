@@ -9,7 +9,7 @@ export default function Home() {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="relative h-screen flex flex-col">
       <nav className="flex items-center p-4 shadow-md">
         <button 
           onClick={toggleDrawer} 
