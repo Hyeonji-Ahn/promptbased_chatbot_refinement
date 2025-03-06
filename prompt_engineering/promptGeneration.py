@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 # Load API key from .env file
 load_dotenv()
-openai.api_key = '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' # Replace with OpenAI API key
+openai.api_key = '' # Replace with OpenAI API key
 
 
 input_excel = "Task 1_immediate_anonymized.xlsx"  # Path to your input Excel file of the desired output
