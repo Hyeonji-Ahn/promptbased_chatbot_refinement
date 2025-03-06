@@ -24,8 +24,8 @@ def merge_excel_files(original_file, produced_file, output_file):
                         'Original Col 1': original_df.iloc[:, 0],
                         'Original Col 2': original_df.iloc[:, 1],
                         'Produced Col 2': produced_df.iloc[:, 1],
-                        'Original Feedback Flag': original_df.iloc[:, 1].astype(str).str.contains('Feedback', na=False).astype(int),
-                        'Produced Feedback Flag': produced_df.iloc[:, 1].astype(str).str.contains('Feedback', na=False).astype(int)
+                        'Original Feedback Flag': original_df.iloc[:, 1].astype(str).str.contains('preposition', na=False).astype(int),
+                        'Produced Feedback Flag': produced_df.iloc[:, 1].astype(str).str.contains('preposition', na=False).astype(int)
                     })
                     
                     # Compute consistency flag

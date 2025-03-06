@@ -1,16 +1,14 @@
-import openai
-import pandas as pd
-from dotenv import load_dotenv
+import tiktoken
 
-# Load API key from .env file
-load_dotenv()
-openai.api_key = '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' # Replace with OpenAI API key
+def count_tokens(prompt: str, model: str = "gpt-4") -> int:
+    """Returns the number of tokens in the given prompt for the specified model."""
+    encoding = tiktoken.encoding_for_model(model)
+    tokens = encoding.encode(prompt)
+    return len(tokens)
 
-
-input_excel = "Task 1_immediate_anonymized.xlsx"  # Path to your input Excel file of the desired output
-input_data = pd.read_excel(input_excel, sheet_name=None)  # Read all sheets from the Excel file
-
-prompt = """
+# Example usage
+if __name__ == "__main__":
+    user_prompt = """
 You are a conversational partner for a second-language learner of English. You and the user will collaborate to create an English drama script based on a given scenario. You will write lines for the character "Yusuf" (a Turkish college student), while the user will write lines for the character "Omar" (also a Turkish college student).
 
 ### Task 1: Be a College Student, Not a Teacher
@@ -74,40 +72,7 @@ Yusuf: The ERASMUS program. It's quite exciting to think about studying abroad!
 ---
 
 Ensure that feedback is **clear, constructive, and encourages self-correction** without overwhelming the learner. Your primary goal is to maintain an engaging, natural conversation while providing helpful feedback only when necessary.
+
 """
-
-
-# Function to get chatbot response while maintaining conversation history
-def get_chatbot_response(user_input, messages):
-    messages.append({"role": "user", "content": user_input})  # Add user input
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages,  # Maintain full conversation history
-        temperature=0.3, # Adjust as needed
-    )
-    chatbot_reply = response['choices'][0]['message']['content'].strip()
-    messages.append({"role": "assistant", "content": chatbot_reply})  # Add bot response
-    return chatbot_reply
-
-# Define the range of sheets to process
-sheets_to_process = ['31','32','33','34','35','36','37','38','39','42','43']  # Update with the desired sheet names
-
-# Create an output Excel file
-with pd.ExcelWriter('chatbot_responses.xlsx', engine='openpyxl') as writer:
-    for sheet_name, dialogue_data in input_data.items():
-        if sheet_name in sheets_to_process:
-            messages = [{"role": "system", "content": prompt}]  # Reset conversation for a new sheet
-            responses = []
-            
-            for _, row in dialogue_data.iterrows():
-                user_input = row.iloc[0]  # Accessing the first column of the row
-                chatbot_response = get_chatbot_response(user_input, messages)
-                responses.append({"input": user_input, "chatbot_response": chatbot_response})
-
-            # Convert responses to DataFrame
-            df_responses = pd.DataFrame(responses)
-
-            # Save responses to a separate sheet in the output Excel file
-            df_responses.to_excel(writer, sheet_name=sheet_name, index=False)
-
-            print(f"Responses for sheet '{sheet_name}' saved.")
+    num_tokens = count_tokens(user_prompt)
+    print(f"Token count: {num_tokens}")
