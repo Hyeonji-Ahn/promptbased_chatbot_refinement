@@ -86,8 +86,7 @@ export async function POST(req: NextRequest) {
     `
     };
 
-
-    //messages with prompt and the user message
+    // messages with prompt and the user message
     const updatedMessages = [systemMessage, ...messages];
 
     // Send the messages to OpenAI
@@ -101,8 +100,18 @@ export async function POST(req: NextRequest) {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
-    console.error("Error:", error);
+  } catch (error: unknown) {
+    // Type assertion to let TypeScript know that 'error' is an instance of Error
+    if (error instanceof Error) {
+      // Log the error if the response status is 500
+      if ((error as any).response && (error as any).response.status === 500) {
+        console.error('Error type:', (error as any).response.data.error);
+      }
+      console.error("Error:", error.message);
+    } else {
+      // If the error is not an instance of Error, log a generic error
+      console.error("An unknown error occurred:", error);
+    }
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
