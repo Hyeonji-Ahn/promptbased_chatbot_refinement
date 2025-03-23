@@ -7,16 +7,35 @@ interface MessageBubbleProps {
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
   const isUser = sender === "user";
+  
+  const feedbackMatch = text.match(/\[Feedback\] ([\s\S]*?)\n?(Yusuf:|$)/);
+  const feedbackText = feedbackMatch ? feedbackMatch[1].trim() : "";
+  let chatText = feedbackMatch ? text.replace(feedbackMatch[0], "").trim() : text;
+
+  // Ensure Yusuf's line starts with "Yusuf:" if it's missing, but only if it's not the user's message
+  if (!chatText.startsWith("Yusuf:") && !isUser) {
+    chatText = `Yusuf: ${chatText}`;
+  }
 
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-2`}>
-      <div
-        className={`max-w-xs md:max-w-sm lg:max-w-md px-4 py-2 rounded-2xl ${
-          isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
-        }`}
-      >
-        {text}
-      </div>
+    <div className={`py-2 flex flex-col gap-2 w-full max-w-md ${isUser ? "items-end" : "items-start"}`}>
+      {feedbackText && (
+        <div className="bg-red-100 text-red-700 p-4 rounded-2xl shadow-md border border-red-300 max-w-xs md:max-w-sm lg:max-w-md">
+          <strong>Error:</strong>
+          <p className="mt-1">{feedbackText.split("Feedback:")[0]}</p>
+          <strong>Feedback:</strong>
+          <p className="mt-1">{feedbackText.split("Feedback:")[1]}</p>
+        </div>
+      )}
+      {chatText && (
+        <div
+          className={`px-3 py-3 rounded-xl max-w-xs md:max-w-sm lg:max-w-md ${
+            isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
+          }`}
+        >
+          {chatText}
+        </div>
+      )}
     </div>
   );
 };
