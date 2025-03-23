@@ -5,6 +5,27 @@ import React, { useState } from 'react';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFeedbackSaved, setIsFeedbackSaved] = useState(false); // Toggle for feedback save
+  const [feedback, setFeedback] = useState<string[]>([]); // Store feedback messages
+
+  const toggleFeedback = () => {
+    setIsFeedbackSaved(!isFeedbackSaved); // Toggle feedback state
+  };
+
+  const addFeedback = (message: string) => {
+    if (isFeedbackSaved) {
+      // Save feedback for later
+      setFeedback((prevFeedback) => [...prevFeedback, message]);
+    } else {
+      // Immediately display feedback in the chat interface
+      setFeedback((prevFeedback) => [...prevFeedback, message]);
+    }
+  };
+
+  const showAllFeedback = () => {
+    setIsFeedbackSaved(false); // Disable feedback saving
+  };
+
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };

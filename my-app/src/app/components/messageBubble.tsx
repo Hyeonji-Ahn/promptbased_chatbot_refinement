@@ -12,10 +12,6 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
   const feedbackText = feedbackMatch ? feedbackMatch[1].trim() : "";
   let chatText = feedbackMatch ? text.replace(feedbackMatch[0], "").trim() : text;
 
-  // Ensure Yusuf's line starts with "Yusuf:" if it's missing, but only if it's not the user's message
-  if (!chatText.startsWith("Yusuf:") && !isUser) {
-    chatText = `Yusuf: ${chatText}`;
-  }
 
   return (
     <div className={`py-2 flex flex-col gap-2 w-full max-w-md ${isUser ? "items-end" : "items-start"}`}>
