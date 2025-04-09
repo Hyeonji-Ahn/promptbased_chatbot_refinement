@@ -19,7 +19,7 @@ export default function Home() {
           className="p-2 bg-blue-500 text-white rounded">
           Task Description
         </button>
-        <h1 className="justify-end text-xl ml-auto font-semibold">Talk to Chat GPT API</h1>
+        <h1 className="justify-end text-xl ml-auto font-semibold">Talk to Chat GPT API (IMM)</h1>
       </nav>
 
       <div className="flex flex-1">

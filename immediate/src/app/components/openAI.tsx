@@ -11,7 +11,6 @@ const ChatComponent: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [isFeedbackDelayed, setIsFeedbackDelayed] = useState<boolean>(false);
   const [feedbackMessages, setFeedbackMessages] = useState<Message[]>([]);
   const [canToggleFeedback, setCanToggleFeedback] = useState<boolean>(true);
   const [isChatFinished, setIsChatFinished] = useState<boolean>(false);
@@ -41,12 +40,6 @@ const ChatComponent: React.FC = () => {
     };
   }, []);
 
-  const handleToggleChange = () => {
-    if (canToggleFeedback) {
-      setIsFeedbackDelayed(!isFeedbackDelayed);
-    }
-  };
-
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -70,23 +63,7 @@ const ChatComponent: React.FC = () => {
       const feedbackPartStart = data.content.indexOf("[Feedback]");
       const messagePartStart = data.content.indexOf("Yusuf:");
 
-      if (isFeedbackDelayed && messagePartStart !== -1) {
-        const messagePart = data.content.slice(messagePartStart);
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: messagePart },
-        ]);
-
-        if (feedbackPartStart !== -1) {
-          const feedbackPart = data.content.slice(feedbackPartStart, messagePartStart).trim();
-          if (feedbackPart) {
-            setFeedbackMessages((prevMessages) => [
-              ...prevMessages,
-              { role: "assistant", content: feedbackPart, feedback: true },
-            ]);
-          }
-        }
-      } else if (messagePartStart !== -1) {
+      if (messagePartStart !== -1) {
         const messagePart = data.content.slice(messagePartStart);
         setMessages((prev) => [
           ...prev,
@@ -145,7 +122,6 @@ const ChatComponent: React.FC = () => {
     setMessages([]);
     setInput("");
     setLoading(false);
-    setIsFeedbackDelayed(false);
     setFeedbackMessages([]);
     setCanToggleFeedback(true);
     setIsChatFinished(false);
@@ -154,19 +130,6 @@ const ChatComponent: React.FC = () => {
   return (
     <div className="w-[95%] h-screen max-w-lg mx-auto border rounded-lg shadow-lg flex flex-col overflow-hidden">
       <h2 className="text-xl font-bold p-4 border-b">Chat with AI</h2>
-
-      {/* Feedback Toggle */}
-      <div className="p-4 border-b">
-        <label>
-          <input
-            type="checkbox"
-            checked={isFeedbackDelayed}
-            onChange={handleToggleChange}
-            disabled={!canToggleFeedback}
-          />
-          Delay Feedback
-        </label>
-      </div>
 
       {/* Chat Messages */}
       <div
