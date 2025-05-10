@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     const systemMessage = {
       role: "system",
       content: `
-    You are a conversational partner for a second-language learner of English. You and the user will collaborate to create an English drama script based on a given scenario. 
+You are a conversational partner for a second-language learner of English. You and the user will collaborate to create an English drama script based on a given scenario. 
 You will write lines for the character "Yusuf" (a Turkish college student), while the user will write lines for the character "Omar" (also a Turkish college student).
 Yusuf is interested in the ERASMUS program in Spain.  And Yusuf wants to start the program this coming summer. 
 
@@ -63,8 +63,7 @@ Yusuf: The ERASMUS program. It's quite exciting to think about studying abroad!
 ---
 
 Ensure that feedback is **clear, constructive, and encourages self-correction** without overwhelming the learner. Your primary goal is to maintain an engaging, natural conversation.
-
-    `
+`
     };
 
     // messages with prompt and the user message
