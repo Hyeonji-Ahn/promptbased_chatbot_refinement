@@ -1,39 +1,24 @@
-import React from "react";
+'use client';
 
-interface MessageBubbleProps {
+export default function MessageBubble({
+  text,
+  sender,
+  feedback,
+}: {
   text: string;
-  sender: "user" | "assistant";
-}
-
-const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
-  const isUser = sender === "user";
-  
-  const feedbackMatch = text.match(/\[Feedback\] ([\s\S]*?)\n?(Yusuf:|$)/);
-  const feedbackText = feedbackMatch ? feedbackMatch[1].trim() : "";
-  const chatText = feedbackMatch ? text.replace(feedbackMatch[0], "").trim() : text;
-
-
+  sender: 'user' | 'assistant';
+  feedback?: boolean;
+}) {
+  const isUser = sender === 'user';
   return (
-    <div className={`py-2 flex flex-col gap-2 w-full max-w-md ${isUser ? "items-end" : "items-start"}`}>
-      {feedbackText && (
-        <div className="bg-red-100 text-red-700 p-4 rounded-2xl shadow-md border border-red-300 max-w-xs md:max-w-sm lg:max-w-md">
-          <strong>Error:</strong>
-          <p className="mt-1">{feedbackText.split("Feedback:")[0]}</p>
-          <strong>Feedback:</strong>
-          <p className="mt-1">{feedbackText.split("Feedback:")[1]}</p>
-        </div>
-      )}
-      {chatText && (
-        <div
-          className={`px-3 py-3 rounded-xl max-w-xs md:max-w-sm lg:max-w-md ${
-            isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
-          }`}
-        >
-          {chatText}
-        </div>
-      )}
+    <div
+      className={[
+        'max-w-[80%] rounded-lg px-3 py-2 whitespace-pre-wrap break-words',
+        isUser ? 'self-end bg-blue-600 text-white' : feedback ? 'self-start bg-yellow-100 text-yellow-900 border border-yellow-300' : 'self-start bg-gray-100 text-gray-900',
+      ].join(' ')}
+    >
+      {!isUser && feedback ? <div className="text-xs font-semibold mb-1">Feedback</div> : null}
+      {text}
     </div>
   );
-};
-
-export default MessageBubble;
+}

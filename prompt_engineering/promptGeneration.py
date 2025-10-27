@@ -1,10 +1,10 @@
 import openai
 import pandas as pd
 import time
-import openai.error
+import openpyxl
 
 # Set your OpenAI API key
-openai.api_key = ''  # Replace with your own key hello
+openai.api_key = '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'  # Replace with your own key hello
 
 # Load input Excel file
 input_excel = "Task 1_immediate_anonymized.xlsx"
@@ -17,7 +17,7 @@ You will write lines for the character "Yusuf" (a Turkish college student), whil
 Yusuf is interested in the ERASMUS program in Spain.  And Yusuf wants to start the program this coming summer. 
 
 ### Task 1: Be a College Student, Not a Teacher
-- Yusuf and Omar are close friends. The conversation should be natural and authentic.
+- Yusuf and Omar are close friends. The conversation should be natural and authentic, reflecting casual college student interactions.
 - The entire script must be in English.                    
 - The user's English proficiency ranges from high beginner to intermediate.
 
@@ -30,13 +30,31 @@ Yusuf is interested in the ERASMUS program in Spain.  And Yusuf wants to start t
 ---
 
 ### Task 2: Provide Corrective Feedback on Grammatical Errors
-As an English language expert, you must provide corrective feedback on **grammatical errors** in the user’s sentences.
-However, **do not correct** errors related to spelling, punctuation, mechanics, or capitalization.
+As an English language expert, you must provide corrective feedback on **Stranded Preposition Errors** in the user’s sentences.
+ However, **do not correct** other grammatical errors especially, errors related to spelling, punctuation, mechanics, or capitalization.
+
+---
+
+### Stranded Preposition Errors
+You provide feedback in the following cases:
+
+1. **Missing a necessary stranded preposition in a question**  
+   - Example error: *Which country are you planning to study abroad?* (missing *in*)
+   - Example feedback: *Try adding a preposition to connect 'study abroad' with the location.*
+
+2. **Incorrectly placing the preposition at the beginning of a question**  
+   - Example error: *From whom did you receive the materials?* (too formal in casual conversation)  
+   - Example feedback: *This sentence is correct but sounds very formal. Try moving the preposition to the end to make it sound more natural.*
+
+3. **Using an incorrect preposition in a correctly structured sentence**  
+   - Example error: *Which country do you want to study abroad to?* (incorrect preposition)  
+   - Example feedback: *The preposition is in the right place, but it’s not the correct one. Try using a different preposition.
+---
 
 ### Instructions for Providing Feedback
-- When an error occurs, begin your message with **[Feedback]**
+- When an error occurs, begin your message with **[Feedback]**.
 - List the exact **sentence with the error** before explaining the mistake.
-- Use **metalinguistic clues** to describe the issue, **do not provide the correct form directly**.
+- Use **metalinguistic clues** to describe the issue but **do not provide the correct form directly**.
 - After providing feedback, continue the conversation by generating Yusuf’s next line.
 
 ---
@@ -54,7 +72,7 @@ Yusuf: The ERASMUS program. It's quite exciting to think about studying abroad!
 
 ---
 
-Ensure that feedback is **clear, constructive, and encourages self-correction** without overwhelming the learner. Your primary goal is to maintain an engaging, natural conversation.
+Ensure that feedback is **clear, constructive, and encourages self-correction** without overwhelming the learner. Be mindful of learner's English level (high beginner to intermediate) Your primary goal is to maintain an engaging, natural conversation.
 """
 
 # Function to get chatbot response with rate limit handling
@@ -66,9 +84,9 @@ def get_chatbot_response(user_input, messages, max_retries=100):
     while retry_count < max_retries:
         try:
             response = openai.ChatCompletion.create(
-                model="ft:gpt-4o-2024-08-06:personal::BUmAU3nQ",
+                model="gpt-5-2025-08-07",
                 messages=messages,
-                temperature=0.3,
+                temperature=1,
             )
             chatbot_reply = response['choices'][0]['message']['content'].strip()
             messages.append({"role": "assistant", "content": chatbot_reply})
@@ -87,17 +105,26 @@ def get_chatbot_response(user_input, messages, max_retries=100):
     print("Max retries reached. Skipping this input.")
     return "[Error] Rate limit exceeded"
 
+
+num_sheets_to_process = 3  
+
 # Create the output Excel file
 with pd.ExcelWriter('chatbot_responses.xlsx', engine='openpyxl') as writer:
-    for sheet_name, dialogue_data in input_data.items():
+    for sheet_name, dialogue_data in list(input_data.items())[:num_sheets_to_process]:
             print(f"Processing sheet: {sheet_name}")
             messages = [{"role": "system", "content": prompt}]
             responses = []
+
+            num_rows = len(dialogue_data)
+            current_row = 0
 
             for _, row in dialogue_data.iterrows():
                 user_input = row.iloc[0]
                 chatbot_response = get_chatbot_response(user_input, messages)
                 responses.append({"input": user_input, "chatbot_response": chatbot_response})
+                current_row +=1
+                print(f"{current_row} / {num_rows}")
+
 
             df_responses = pd.DataFrame(responses)
             df_responses.to_excel(writer, sheet_name=sheet_name, index=False)
