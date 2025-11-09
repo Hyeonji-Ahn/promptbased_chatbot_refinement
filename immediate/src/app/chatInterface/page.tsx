@@ -33,7 +33,7 @@ export default function ChatPage() {
         <button onClick={() => setIsOpen(false)} className="absolute top-2 right-2 text-xl">
           &times;
         </button>
-        <div className="max-w-2xl mx-auto p-4">
+        <div className="text-black max-w-2xl mx-auto p-4">
           <h2 className="text-xl font-semibold mb-2">Task Instructions</h2>
           <h1 className="text-2xl font-bold mb-4">Task A: Talking about the ERASMUS Program</h1>
           <h2 className="text-xl font-semibold">Directions</h2>
