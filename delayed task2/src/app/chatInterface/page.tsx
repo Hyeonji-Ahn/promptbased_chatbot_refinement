@@ -18,7 +18,7 @@ export default function ChatPage() {
         <ExportButton transcript={transcript} />
       </nav>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1"> 
         <div className="flex-1 p-4">
           <Chat onTranscriptChange={setTranscript} />
         </div>
