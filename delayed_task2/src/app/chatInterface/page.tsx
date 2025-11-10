@@ -33,7 +33,7 @@ export default function ChatPage() {
           &times;
         </button>
         <h2 className="text-xl font-semibold mb-2">Task Instructions</h2>
-                  <h1 className="text-2xl font-bold mb-4">Task A: Talking about the ERASMUS Program</h1>
+                  <h1 className="text-2xl font-bold mb-4">Task B: Organizing an event for a student club</h1>
                   <h2 className="text-xl font-semibold">Directions</h2>
                   <p>
                     You and your conversational partner, ChatGPT, will engage in an activity where you create a drama script based on a given scenario.

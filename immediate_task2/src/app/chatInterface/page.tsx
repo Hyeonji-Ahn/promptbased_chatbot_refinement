@@ -35,7 +35,7 @@ export default function ChatPage() {
         </button>
         <div className="text-black max-w-2xl mx-auto p-4">
           <h2 className="text-xl font-semibold mb-2">Task Instructions</h2>
-          <h1 className="text-2xl font-bold mb-4">Task A: Talking about the ERASMUS Program</h1>
+          <h1 className="text-2xl font-bold mb-4">Task B: Organizing an event for a student club</h1>
           <h2 className="text-xl font-semibold">Directions</h2>
           <p>
             You and your conversational partner, ChatGPT, will engage in an activity where you create a drama script based on a given scenario.
@@ -76,13 +76,13 @@ Ecrin (Junior) and Omar (Freshman) are preparing for an event for a student club
       <li>How many event staff members will participate</li>
       <li>Which café you (Omar) can order lunch from</li>
       <li>Asking what can be offered as a giveaway item</li>
-      <li>Asking which online store Yusuf bought souvenirs from last year</li>
+      <li>Asking which online store Ecrin bought souvenirs from last year</li>
     </ul>
   </li>
   <li><strong>Topic 3: Preparing the event survey</strong>
     <ul className="list-disc ml-5">
       <li>Saying that a participant survey needs to be prepared</li>
-      <li>How many participants they (Yusuf & Omar) collect the survey from</li>
+      <li>How many participants they (Ecrin & Omar) collect the survey from</li>
       <li>Which website you (Omar) upload the survey results to</li>
     </ul>
   </li>
