@@ -72,7 +72,7 @@ Ensure that feedback is **clear, constructive, and encourages self-correction** 
 
     // Send the messages to OpenAI
     const chatCompletion = await openai.chat.completions.create({
-      model: "ft:gpt-4o-2024-08-06",
+      model: "gpt-4o-2024-08-06",
       messages: updatedMessages, // Use messages from the request
     });
 
