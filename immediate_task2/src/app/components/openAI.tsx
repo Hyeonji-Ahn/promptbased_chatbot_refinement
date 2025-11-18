@@ -56,25 +56,26 @@ export default function ChatComponent({
       const data = await res.json();
       if (!data || typeof data.content !== 'string') throw new Error('Invalid API response');
 
-      // Parse for [Feedback] and "Yusuf:"
+      // Parse for [Feedback] and "Ecrin:"
       const feedbackStart = data.content.indexOf('[Feedback]');
-      const yusufStart = data.content.indexOf('Yusuf:');
+      const ecrinStart = data.content.indexOf('Ecrin:');
 
       let feedbackPart = '';
       let mainPart = data.content;
 
-      if (feedbackStart !== -1 && yusufStart !== -1) {
-        // feedback then Yusuf
-        feedbackPart = data.content.slice(feedbackStart, yusufStart).trim();
-        mainPart = data.content.slice(yusufStart).trim();
-      } else if (yusufStart !== -1) {
-        mainPart = data.content.slice(yusufStart).trim();
+      if (feedbackStart !== -1 && ecrinStart !== -1) {
+        // feedback then Ecrin
+        feedbackPart = data.content.slice(feedbackStart, ecrinStart).trim();
+        mainPart = data.content.slice(ecrinStart).trim();
+      } else if (ecrinStart !== -1) {
+        mainPart = data.content.slice(ecrinStart).trim();
       } else if (feedbackStart !== -1) {
         feedbackPart = data.content.slice(feedbackStart).trim();
         mainPart = '';
       }
 
       const additions: Message[] = [];
+      // Character line first, then feedback
       if (mainPart) additions.push({ role: 'assistant', content: mainPart });
       if (feedbackPart) additions.push({ role: 'assistant', content: feedbackPart, feedback: true });
 

@@ -14,7 +14,7 @@ export default function ChatPage() {
         <button onClick={() => setIsOpen((v) => !v)} className="p-2 bg-blue-500 text-white rounded">
           Task Description
         </button>
-        <h1 className="text-xl font-semibold ml-auto">Talk to Chat GPT API (DEL) Task2</h1>
+        <h1 className="text-xl font-semibold ml-auto">Task 2 (D)</h1>
         <ExportButton transcript={transcript} />
       </nav>
 

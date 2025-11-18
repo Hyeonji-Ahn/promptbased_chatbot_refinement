@@ -7,6 +7,7 @@ export interface Message {
   role: 'user' | 'assistant';
   content: string;
   feedback?: boolean; // true for feedback lines
+  fullContent?: string; // Store full content with feedback for delayed display
 }
 
 export interface Transcript {
@@ -61,29 +62,38 @@ export default function ChatComponent({ onTranscriptChange }: { onTranscriptChan
       const data = await res.json();
       if (!data || typeof data.content !== 'string') throw new Error('Invalid API response');
 
-      // Parse model output for optional [Feedback] and Yusuf:
+      // Parse model output for optional [Feedback] and Ecrin:
       const feedbackStart = data.content.indexOf('[Feedback]');
-      const yusufStart = data.content.indexOf('Yusuf:');
+      const ecrinStart = data.content.indexOf('Ecrin:');
 
       let feedbackPart = '';
       let mainPart = data.content;
 
-      if (feedbackStart !== -1 && yusufStart !== -1) {
-        feedbackPart = data.content.slice(feedbackStart, yusufStart).trim();
-        mainPart = data.content.slice(yusufStart).trim();
-      } else if (yusufStart !== -1) {
-        mainPart = data.content.slice(yusufStart).trim();
+      if (feedbackStart !== -1 && ecrinStart !== -1) {
+        feedbackPart = data.content.slice(feedbackStart, ecrinStart).trim();
+        mainPart = data.content.slice(ecrinStart).trim();
+      } else if (ecrinStart !== -1) {
+        mainPart = data.content.slice(ecrinStart).trim();
       } else if (feedbackStart !== -1) {
         feedbackPart = data.content.slice(feedbackStart).trim();
         mainPart = '';
       }
 
-      // show only main assistant line in the chat
-      if (mainPart) setMessages((prev) => [...prev, { role: 'assistant', content: mainPart }]);
-
-      // keep feedback hidden until Finish Chat
-      if (feedbackPart) {
-        setFeedbackMessages((prev) => [...prev, { role: 'assistant', content: feedbackPart, feedback: true }]);
+      // Store full content but show only main part until Finish Chat
+      if (mainPart || feedbackPart) {
+        const fullContent = feedbackPart && mainPart 
+          ? `${mainPart}\n\n${feedbackPart}` // Character line first, then feedback
+          : mainPart || feedbackPart;
+        setMessages((prev) => [...prev, { 
+          role: 'assistant', 
+          content: mainPart || '', // Show only main part
+          fullContent: fullContent // Store full content for later
+        }]);
+        
+        // Also store feedback separately for transcript
+        if (feedbackPart) {
+          setFeedbackMessages((prev) => [...prev, { role: 'assistant', content: feedbackPart, feedback: true }]);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -101,11 +111,14 @@ export default function ChatComponent({ onTranscriptChange }: { onTranscriptChan
   };
 
   const handleFinishChat = () => {
-    // append feedback as visible assistant lines and mark finished
-    if (feedbackMessages.length) {
-      setMessages((prev) => [...prev, ...feedbackMessages]);
-      setFeedbackMessages([]);
-    }
+    // Update messages to show full content (character line + feedback)
+    const updatedMessages = messages.map(msg => {
+      if (msg.fullContent) {
+        return { ...msg, content: msg.fullContent };
+      }
+      return msg;
+    });
+    setMessages(updatedMessages);
     setIsChatFinished(true);
   };
 
@@ -120,6 +133,13 @@ export default function ChatComponent({ onTranscriptChange }: { onTranscriptChan
   return (
     <div className="w-[95%] h-screen max-w-lg mx-auto border rounded-lg shadow-lg flex flex-col overflow-hidden">
       <h2 className="text-xl font-bold p-4 border-b">Chat with AI</h2>
+
+      {/* Finish Chat button at the top */}
+      <div className="p-4 border-b">
+        <button onClick={handleFinishChat} className="bg-green-500 text-white px-4 py-2 rounded-lg">
+          Finish Chat
+        </button>
+      </div>
 
       {/* Messages (feedback hidden until Finish Chat) */}
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-2" onScroll={handleScroll}>
@@ -148,16 +168,6 @@ export default function ChatComponent({ onTranscriptChange }: { onTranscriptChan
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
         >
           {loading ? 'Sending…' : 'Send'}
-        </button>
-      </div>
-
-      {/* Finish / Clear controls */}
-      <div className="p-4 flex gap-2">
-        <button onClick={handleFinishChat} className="bg-green-500 text-white px-4 py-2 rounded-lg">
-          Finish Chat
-        </button>
-        <button onClick={handleClearChat} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-          Clear Chat
         </button>
       </div>
     </div>

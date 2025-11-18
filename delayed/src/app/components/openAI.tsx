@@ -121,6 +121,13 @@ export default function ChatComponent({ onTranscriptChange }: { onTranscriptChan
     <div className="w-[95%] h-screen max-w-lg mx-auto border rounded-lg shadow-lg flex flex-col overflow-hidden">
       <h2 className="text-xl font-bold p-4 border-b">Chat with AI</h2>
 
+      {/* Finish Chat button at the top */}
+      <div className="p-4 border-b">
+        <button onClick={handleFinishChat} className="bg-green-500 text-white px-4 py-2 rounded-lg">
+          Finish Chat
+        </button>
+      </div>
+
       {/* Messages (feedback hidden until Finish Chat) */}
       <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-2" onScroll={handleScroll}>
         {messages.length === 0 ? (
@@ -148,16 +155,6 @@ export default function ChatComponent({ onTranscriptChange }: { onTranscriptChan
           className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
         >
           {loading ? 'Sending…' : 'Send'}
-        </button>
-      </div>
-
-      {/* Finish / Clear controls */}
-      <div className="p-4 flex gap-2">
-        <button onClick={handleFinishChat} className="bg-green-500 text-white px-4 py-2 rounded-lg">
-          Finish Chat
-        </button>
-        <button onClick={handleClearChat} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-          Clear Chat
         </button>
       </div>
     </div>

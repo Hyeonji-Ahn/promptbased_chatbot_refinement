@@ -16,7 +16,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
   return (
     <div className={`py-2 flex flex-col gap-2 w-full max-w-md ${isUser ? "items-end" : "items-start"}`}>
       {feedbackText && (
-        <div className="bg-red-100 text-red-700 p-4 rounded-2xl shadow-md border border-red-300 max-w-xs md:max-w-sm lg:max-w-md">
+        <div className="bg-pink-100 text-pink-900 p-4 rounded-2xl shadow-md border border-pink-300 max-w-xs md:max-w-sm lg:max-w-md">
           <strong>Error:</strong>
           <p className="mt-1">{feedbackText.split("Feedback:")[0]}</p>
           <strong>Feedback:</strong>

@@ -14,7 +14,7 @@ export default function ChatPage() {
         <button onClick={() => setIsOpen((v) => !v)} className="p-2 bg-blue-500 text-white rounded">
           Task Description
         </button>
-        <h1 className="text-xl font-semibold ml-auto">Chat (Immediate Feedback)</h1>
+        <h1 className="text-xl font-semibold ml-auto">Task 1 (I)</h1>
         <ExportButton messages={messages} />
       </nav>
 
