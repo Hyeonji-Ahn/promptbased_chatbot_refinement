@@ -14,11 +14,11 @@ export default function Home() {
   return (
     <div className="relative h-screen flex flex-col">
       <nav className="flex items-center p-4 shadow-md">
-        <button 
+        {/* <button 
           onClick={toggleDrawer} 
           className="p-2 bg-blue-500 text-white rounded">
           Task Description
-        </button>
+        </button> */}
         <h1 className="justify-end text-xl ml-auto font-semibold">Talk to Chat GPT API</h1>
       </nav>
 

@@ -11,9 +11,9 @@ export default function ChatPage() {
   return (
     <div className="relative h-screen flex flex-col">
       <nav className="flex items-center gap-3 p-4 shadow-md">
-        <button onClick={() => setIsOpen((v) => !v)} className="p-2 bg-blue-500 text-white rounded">
+        {/* <button onClick={() => setIsOpen((v) => !v)} className="p-2 bg-blue-500 text-white rounded">
           Task Description
-        </button>
+        </button> */}
         <h1 className="text-xl font-semibold ml-auto">Task 1 (I)</h1>
         <ExportButton messages={messages} />
       </nav>
