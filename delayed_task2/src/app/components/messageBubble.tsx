@@ -12,20 +12,11 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
   const ecrinMatch = text.match(/(Ecrin:[\s\S]*?)(?=\n\n\[Feedback\]|$)/);
   const feedbackMatch = text.match(/\[Feedback\]([\s\S]*?)$/);
   const chatText = ecrinMatch ? ecrinMatch[1].trim() : (feedbackMatch ? "" : text);
-  const feedbackText = feedbackMatch ? feedbackMatch[1].trim() : "";
+  const feedbackText = feedbackMatch ? feedbackMatch[1].trim().replace(/\[Feedback\]\s*/gi, '') : "";
 
 
   return (
     <div className={`py-2 flex flex-col gap-2 w-full max-w-md ${isUser ? "items-end" : "items-start"}`}>
-      {chatText && (
-        <div
-          className={`px-3 py-3 rounded-xl max-w-xs md:max-w-sm lg:max-w-md ${
-            isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
-          }`}
-        >
-          {chatText}
-        </div>
-      )}
       {feedbackText && (
         <div className="bg-pink-100 text-pink-900 p-4 rounded-2xl shadow-md border border-pink-300 max-w-xs md:max-w-sm lg:max-w-md">
           {feedbackText.includes("Error:") && (
@@ -40,6 +31,15 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
           {!feedbackText.includes("Error:") && !feedbackText.includes("Feedback:") && (
             <p className="mt-1">{feedbackText}</p>
           )}
+        </div>
+      )}
+      {chatText && (
+        <div
+          className={`px-3 py-3 rounded-xl max-w-xs md:max-w-sm lg:max-w-md ${
+            isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
+          }`}
+        >
+          {chatText}
         </div>
       )}
     </div>

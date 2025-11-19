@@ -10,6 +10,8 @@ export default function MessageBubble({
   feedback?: boolean;
 }) {
   const isUser = sender === 'user';
+  // Remove [Feedback] tag from the text
+  const displayText = feedback ? text.replace(/\[Feedback\]\s*/gi, '').trim() : text;
   return (
     <div
       className={[
@@ -17,7 +19,7 @@ export default function MessageBubble({
         isUser ? 'self-end bg-blue-600 text-white' : feedback ? 'self-start bg-pink-100 text-pink-900 border border-pink-300' : 'self-start bg-gray-100 text-gray-900',
       ].join(' ')}
     >
-      {text}
+      {displayText}
     </div>
   );
 }

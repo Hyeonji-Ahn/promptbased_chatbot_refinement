@@ -75,8 +75,9 @@ export default function ChatComponent({
       }
 
       const additions: Message[] = [];
-      if (mainPart) additions.push({ role: 'assistant', content: mainPart });
+      // Feedback first, then character message
       if (feedbackPart) additions.push({ role: 'assistant', content: feedbackPart, feedback: true });
+      if (mainPart) additions.push({ role: 'assistant', content: mainPart });
 
       if (additions.length) setMessages((prev) => [...prev, ...additions]);
     } catch (e) {

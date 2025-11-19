@@ -9,7 +9,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
   const isUser = sender === "user";
   
   const feedbackMatch = text.match(/\[Feedback\] ([\s\S]*?)\n?(Yusuf:|$)/);
-  const feedbackText = feedbackMatch ? feedbackMatch[1].trim() : "";
+  const feedbackText = feedbackMatch ? feedbackMatch[1].trim().replace(/\[Feedback\]\s*/gi, '') : "";
   const chatText = feedbackMatch ? text.replace(feedbackMatch[0], "").trim() : text;
 
 
