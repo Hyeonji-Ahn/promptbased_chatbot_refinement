@@ -28,7 +28,6 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
       )}
       {feedbackText && (
         <div className="bg-pink-100 text-pink-900 p-4 rounded-2xl shadow-md border border-pink-300 max-w-xs md:max-w-sm lg:max-w-md">
-          <strong>[Feedback]</strong>
           {feedbackText.includes("Error:") && (
             <>
               <strong className="block mt-2">Error:</strong>
@@ -36,10 +35,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
             </>
           )}
           {feedbackText.includes("Feedback:") && (
-            <>
-              <strong className="block mt-2">Feedback:</strong>
-              <p className="mt-1">{feedbackText.split("Feedback:")[1]?.trim()}</p>
-            </>
+            <p className="mt-1">{feedbackText.split("Feedback:")[1]?.trim()}</p>
           )}
           {!feedbackText.includes("Error:") && !feedbackText.includes("Feedback:") && (
             <p className="mt-1">{feedbackText}</p>

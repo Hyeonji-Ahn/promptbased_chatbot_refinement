@@ -19,7 +19,6 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ text, sender }) => {
         <div className="bg-pink-100 text-pink-900 p-4 rounded-2xl shadow-md border border-pink-300 max-w-xs md:max-w-sm lg:max-w-md">
           <strong>Error:</strong>
           <p className="mt-1">{feedbackText.split("Feedback:")[0]}</p>
-          <strong>Feedback:</strong>
           <p className="mt-1">{feedbackText.split("Feedback:")[1]}</p>
         </div>
       )}

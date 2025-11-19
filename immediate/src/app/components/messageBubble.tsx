@@ -17,7 +17,6 @@ export default function MessageBubble({
         isUser ? 'self-end bg-blue-600 text-white' : feedback ? 'self-start bg-pink-100 text-pink-900 border border-pink-300' : 'self-start bg-gray-100 text-gray-900',
       ].join(' ')}
     >
-      {!isUser && feedback ? <div className="text-xs font-semibold mb-1">Feedback</div> : null}
       {text}
     </div>
   );
